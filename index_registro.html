@@ -13,7 +13,7 @@
 	<header>
 	</header>
 	<div class="navbar-fixed">
-		<nav class="color lime lighten-1">
+		<nav class="color blue darken-1">
 			<div class="nav-wrapper">
 				<a href="#!" class="brand-logo center">Quiero Correr</a>
 			</div>
@@ -21,46 +21,46 @@
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col s5 card-panel lime lighten-4 z-depth-5">
-				<form class="col s12">
+			<span class="titulo_ficha">Incripción de competidor individual</span>
+		</div>
+		<div class="row">
+			<div class="col l8 m6 s12 card-panel grey lighten-3 z-depth-5">
+				<form class="col l12 m12 s12">
 					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col l6 m12 s12">
 							<i class="material-icons prefix">account_circle</i>
+							<input id="icon_prefix" type="text" class="validate">
+							<label for="icon_prefix">Nombre(s)</label>
+						</div>
+						<div class="input-field col l6 m12 s12">
+							<i class="material-icons prefix"></i>
 							<input id="icon_prefix" type="text" class="validate">
 							<label for="icon_prefix">Paterno</label>
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col l6 m12 s12">
 							<i class="material-icons prefix"></i>
 							<input id="icon_prefix" type="text" class="validate">
 							<label for="icon_prefix">Materno</label>
 						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s12">
-							<i class="material-icons prefix"></i>
-							<input id="icon_prefix" type="text" class="validate">
-							<label for="icon_prefix">Nombre(s)</label>
-						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s4">
+						<div class="input-field col l2 m4 s4">
 							<i class="material-icons prefix">cake</i>
 							<select>
 								<option value="" disabled selected>Día</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 							</select>
+							<label for="icon_prefix">Nacimiento</label>
 						</div>
-						<div class="input-field col s4">
+						<div class="input-field col l2 m4 s4">
 							<select>
 								<option value="" disabled selected>Mes</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 							</select>
 						</div>
-						<div class="input-field col s4">
+						<div class="input-field col l2 m4 s4">
 							<select>
 								<option value="" disabled selected>Año</option>
 								<option value="1">1950</option>
@@ -69,76 +69,88 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col l6 m12 s12">
 							<i class="material-icons prefix">wc</i>
 							<select>
-								<option value="" disabled selected>Género</option>
 								<option value="femenino">Femenino</option>
 								<option value="masculino">Masculino</option>
 							</select>
+							<label for="icon_prefix">Género</label>
 						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col l6 m12 s12">
 							<i class="material-icons prefix">local_convenience_store</i>
 							<input id="icon_prefix" type="text" class="validate">
 							<label for="icon_prefix">Código Postal</label>
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col l6 m12 s12">
 							<i class="material-icons prefix">map</i>
 							<select>
-								<option value="" disabled selected>Entidad</option>
-								<option value="cdmx">Ciudad de México</option>
+								<option value="cdmx" class="red">Ciudad de México</option>
 								<option value="edomex">Estado de México</option>
 							</select>
+							<label for="icon_prefix">Entidad</label>
 						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col l6 m12 s12">
 							<i class="material-icons prefix">email</i>
 							<input id="email" type="email" class="validate">
 							<label for="icon_prefix">Email</label>
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col l6 m12 s12">
 							<i class="material-icons prefix">phone</i>
 							<input id="icon_prefix" type="text" class="validate">
 							<label for="icon_prefix">Teléfono</label>
 						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col l6 m12 s12">
 							<i class="material-icons prefix">local_hospital</i>
 							<input id="icon_prefix" type="text" class="validate">
 							<label for="textarea1">Alergías</label>
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col l6 m12 s12">
 							<i class="material-icons prefix">directions_bike</i>
 							<select>
-								<option value="" disabled selected>Categoría</option>
 								<option value="duatlon-completo">Duatlón-Completo</option>
 								<option value="duatlon-parejas">Duatlón-Parejas</option>
 							</select>
+							<label for="icon_prefix">Categoría</label>
+						</div>
+						<div class="input-field col l6 m12 s12">
+							<i class="material-icons prefix">person_add</i>
+							<input id="icon_prefix" type="text" class="validate">
+							<label for="icon_prefix">Nombre Ciclista</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col l6 m12 s12">
+							<i class="material-icons prefix">contact_mail</i>
+							<input id="email" type="email" class="validate">
+							<label for="icon_prefix">Email Ciclista</label>
 						</div>
 					</div>
 				</form>
 			</div>
-			<div class="col s7 center-align">
+			<div class="col l1 m1 s12">
+			</div>
+			<div class="col l3 m5 s12 left-align">
 				<div class="row">
 					<img class="responsive-img" src="images/Logo-MAYO.png" width="125px" height="125px">
 				</div>
 				<div class="row">
-					<span class="blue-text">Otra Información</span>
+					<span class="otra-informacion">Carrera:</span>
+					<br>
+					<span class="otra-informacion-i">15, Septiembre</span>
+					<br>
+					<span class="otra-informacion">Conferencia:</span>
+					<br>
+					<span class="otra-informacion-i">05, Agosto</span>
 				</div>
 				<div class="row">
-					<button class="btn waves-effect waves-light" type="submit" name="action">Registrarme
-						<i class="material-icons right">send</i>
-					</button>
+					<a class="waves-effect waves-light btn-large color orange"><i class="material-icons left">done</i>Registrar</a>
 				</div>
 			</div>
 		</div>
@@ -147,10 +159,6 @@
 	</footer>
 <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-<script>
-	$(document).ready(function() {
-		$('select').material_select();
-	});
-  </script>
+<script type="text/javascript" src="js/mis_funciones.js"></script>
 </body>
 </html>
