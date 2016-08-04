@@ -7,26 +7,57 @@ var Navigation= ReactRouter.Navigation;
 var History=ReactRouter.History;
 var createBrowserHistory =require('history/lib/createBrowserHistory');
 
+var Datos = require('./datos')
 
-var dias=[{valor:1,titulo:1},{valor:2,titulo:2}]
-var meses=[{valor:1,titulo:1},{valor:2,titulo:2}]
-var anios=[{valor:1,titulo:"1950"},{valor:2,titulo:"1951"}]
-var generos=[{valor:"femenino",titulo:"Femenino"},{valor:"masculino",titulo:"Masculino"}]
-var entidades=[{valor:"cdmx",titulo:"Ciudad de México"},{valor:"edomex",titulo:"Estado de México"}]
-var categorias=[{valor:"duatlon-completo",titulo:"Duatlón-Completo"},{valor:"duatlon-parejas",titulo:"Duatlón-Parejas"}]
+var Plantilla = require('./controles/plantilla')
+var CajaTexto = require('./controles/caja_texto');
+var Combo = require('./controles/combo');
+
+//var dias={1:1,2:2}
+//var meses={1:'Enero',2:'Febrero'}
+//var anios={1:"1950",2:"1951"}
+//var generos={"femenino":"Femenino","masculino":"Masculino"}
+//var entidades={"cdmx":"Ciudad de México","edomex":"Estado de México"}
+//var categorias={"duatlon-completo":"Duatlón-Completo","duatlon-parejas":"Duatlón-Parejas"}
 /*
   App
 */  
 
-
+//var daysInMonth = new Date(2015,2,1,-1).getDate()
 
    var App=React.createClass({
-    // getInitialState: function(){
-    //     return{
-    //       fishes:{},
-    //       order: {}
-    //     }    
-    // },
+    getInitialState: function(){
+       return{
+       	  genero: "masculino",
+       	  entidad: "cdmx",
+          anio: 1997,
+          mes: 1,
+          dia:1,
+          enParejas:false,
+          categoria: "duatlon-completo",
+       }    
+    },
+    componentWillMount: function(){
+        this.anios = this.obtenerAnios();
+        this.meses = Datos().Meses();            
+        this.categorias = Datos().Categorias();
+        this.generos = Datos().Generos();
+        this.estados = Datos().Estados();
+    },
+    obtenerAnios: function(){
+    	var anios = {}
+    	for (var i = 1930; i <=2010 ; i++) {
+    		anios[i] = i;
+    	};
+    	return anios;
+    },
+    llenarDias: function(num_dias){
+    	var dias = {}
+    	for (var i = 1; i <=num_dias ; i++) {
+    		dias[i] = i;
+    	};
+    	return dias;
+    },
     registrar:function(){
       
       var salida="";
@@ -37,8 +68,10 @@ var categorias=[{valor:"duatlon-completo",titulo:"Duatlón-Completo"},{valor:"du
       salida+="\n"+this.refs.email.valor();
       salida+="\n"+this.refs.tel.valor();
       salida+="\n"+this.refs.alergia.valor();
-      salida+="\n"+this.refs.nomCiclista.valor();
-      salida+="\n"+this.refs.emailCiclista.valor();
+      if(this.state.enParejas){
+      	salida+="\n"+this.refs.nomCiclista.valor();
+      	salida+="\n"+this.refs.emailCiclista.valor();      	
+      }      
       salida+="\n"+this.refs.dia.valor();
       salida+="\n"+this.refs.mes.valor();
       salida+="\n"+this.refs.anio.valor();
@@ -47,16 +80,32 @@ var categorias=[{valor:"duatlon-completo",titulo:"Duatlón-Completo"},{valor:"du
       salida+="\n"+this.refs.categoria.valor();
       console.log(salida);
     },
-    render:function(){
+    onChange: function(control, valor){    	
     	
-    	
+    	if(control ==="categoria" ){
+        	var enParejas = (valor === "duatlon-parejas" )    	
+    		this.setState({categoria:valor, enParejas:enParejas});   		
+    	}
+    	else if(control ==="anio" || control==="mes"){
+    		var anio = this.refs.anio.valor();
+    		var mes = this.refs.mes.valor();            
+            this.setState({anio: anio, mes: mes});
+            $('select').material_select(); // Esto es necesario para que materialize pueda refrescar los datos del combo
+    	}
+    	else{
+    		var lista ={};
+			lista[control] = valor;
+			this.setState(lista);
+    	}
+
+    },
+    render:function(){ 
+    var num_dias = new Date(this.state.anio,this.state.mes,1,-1).getDate()   	                                
+    var dias = this.llenarDias(num_dias);
+	   var DIAS =<Combo  id="dia" claveSeleccionada={this.state.dia} ref="dia" tamanio={"input-field col l2 m4 s2"} claseIcono={"material-icons prefix"} icono={"cake"} titulo={"Dia"} textoIndicativo={"Nacimiento"} datosOpciones={dias} onChange={this.onChange} />
+
    	   return (
-   	   	<div>
-          <div className="row">
-			<span className="titulo_ficha">Incripción de competidor individual.</span>
-		  </div>
-		  	<div className="row">
-			<div className="col l8 m6 s12 card-panel grey lighten-3 z-depth-5">
+  			<Plantilla>
 				<form className="col l12 m12 s12">
 					<div className="row">
 						<CajaTexto  icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
@@ -64,16 +113,16 @@ var categorias=[{valor:"duatlon-completo",titulo:"Duatlón-Completo"},{valor:"du
 					</div>
 					<div className="row">
 	                    <CajaTexto titulo="Materno" ref="materno"/>	
-	                    <Combo ref="dia" tamanio={"input-field col l2 m4 s4"} claseIcono={"material-icons prefix"} icono={"cake"} titulo={"Dia"} textoIndicativo={"Nacimiento"} datosOpciones={dias}/>
-	                    <Combo ref="mes" tamanio={"input-field col l2 m4 s4"} titulo={"Mes"} datosOpciones={meses}/>
-	                    <Combo ref="anio" tamanio={"input-field col l2 m4 s4"} titulo={"Año"} datosOpciones={anios}/>			
+					    <Combo  id="genero" ref="genero" claveSeleccionada={this.state.genero} tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"wc"} textoIndicativo={"Género"} datosOpciones={this.generos} onChange={this.onChange} />
 					</div>
 					<div className="row">
-					    <Combo ref="genero" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"wc"} textoIndicativo={"Género"} datosOpciones={generos}/>
+						{DIAS}
+	                    <Combo  id="mes" claveSeleccionada={this.state.mes} ref="mes" tamanio={"input-field col l2 m4 s5"} titulo={"Mes"} datosOpciones={this.meses} onChange={this.onChange} />
+	                    <Combo  id="anio" ref="anio" claveSeleccionada={this.state.anio} tamanio={"input-field col l2 m4 s5"} titulo={"Año"} datosOpciones={this.anios} onChange={this.onChange} />			
 						<CajaTexto icono={"local_convenience_store"} titulo={"Código Postal"} ref="cp"/>
 					</div>
 					<div className="row">
-                        <Combo ref="entidad" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"map"} textoIndicativo={"Entidad"} datosOpciones={entidades}/>					
+                        <Combo  id="entidad" claveSeleccionada={this.state.entidad} ref="entidad" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"map"} textoIndicativo={"Entidad"} datosOpciones={this.estados} onChange={this.onChange}/>					
 						<CajaTexto icono={"email"} titulo={"Email"} ref="email" />
 					</div>
 					<div className="row">
@@ -81,111 +130,29 @@ var categorias=[{valor:"duatlon-completo",titulo:"Duatlón-Completo"},{valor:"du
 						<CajaTexto icono={"local_hospital"} titulo={"Alergías"} ref="alergia"/>
 					</div>
 					<div className="row">
-					    <Combo ref="categoria" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"directions_bike"} textoIndicativo={"Categoría"} datosOpciones={categorias}/>					
-						<CajaTexto icono={"person_add"} titulo={"Nombre Ciclista"} ref="nomCiclista"/>
+					    <Combo id="categoria" claveSeleccionada={this.state.categoria}  ref="categoria" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"directions_bike"} textoIndicativo={"Categoría"} datosOpciones={this.categorias} onChange={this.onChange}/>					
+						{this.state.enParejas ? <CajaTexto icono={"person_add"} titulo={"Nombre Ciclista"} ref="nomCiclista"/> : []}
 					</div>
 					<div className="row">
-					    <CajaTexto icono={"contact_mail"} titulo={"Email Ciclista"} ref="emailCiclista" />
+					    {this.state.enParejas ? <CajaTexto icono={"contact_mail"} titulo={"Email Ciclista"} ref="emailCiclista" /> : []}
 					</div>
 				</form>
-			</div>
-			<div className="col l1 m1 s12">
-			</div>
-			<div className="col l3 m5 s12 center-align">
-				<div className="row">
-					<img className="responsive-img" src="images/Logo-MAYO.png" width="125px" height="125px"/>
-				</div>
-				<div className="row">
-					<span className="otra-informacion">Carrera:</span>
-					<br/>
-					<span className="otra-informacion-i">15, Septiembre 2016</span>
-					<br/>
-					<span className="otra-informacion">Conferencia:</span>
-					<br/>
-					<span className="otra-informacion-i">05, Agosto 2016</span>
-				</div>
-				<div className="row">
-					<a className="waves-effect waves-light btn-large color orange" onClick={this.registrar}><i className="material-icons left">done</i>Registrar</a>
-				</div>
-			</div>
-		</div>
-     </div>
+		    </Plantilla>
    		)
    	 }  
    });
  
-var CajaTexto=React.createClass({
-	valor:function(){
-            return this.refs.caja.value;
-	},
+var Detalle =React.createClass({
 	render:function(){
-       return (
-
-			    <div className="input-field col l6 m12 s12">
-					<i className="material-icons prefix">{this.props.icono}</i>
-					<input id="icon_prefix" type="text" ref="caja" className="validate" />
-					<label htmlFor="icon_prefix">{this.props.titulo}</label>
-			    </div>
-       	      )		
+	 return(
+		<Plantilla>
+		  <div className="input-field col l6 m12 s12">
+		  	<h1 className="row">Te registraste</h1>
+		  </div>
+		</Plantilla>
+		)
 	}
-});
-
-var Combo=React.createClass({
-	getDefaultProps: function(){
-	return{
-		claveSeleccionada: 2,
-		}
-	},
-	getInitialState: function() {
-         return {
-             value: 'select'
-         }
-     },
-  componentDidMount() {
-     $(ReactDOM.findDOMNode(this.refs.combo)).on('change',this.onChange);
-   },
-     componentWillUnmount() {
-     $(ReactDOM.findDOMNode(this.refs.combo)).off('change',this.onChange);
-   },
-   onChange(e) {
-    console.log("cambio")
-    console.log(e.target.value);
-  },
-	valor:function(){
-            return this.refs.combo.value;
-	},
-	getDias:function(dia){
-			return(
-			    <option key={dia.valor} value={dia.valor}>{dia.titulo}</option>
-			)
-
-			//	return <Opcion key={this.props.valor} valor={dia.valor} titulo={dia.titulo}/>	
-			},	
-	render: function(){
-		return(
-                <div className={this.props.tamanio} >
-					<i className={this.props.claseIcono}>{this.props.icono}</i>
-					<select ref="combo"  value={this.props.claveSeleccionada}  >
-						{this.props.datosOpciones.map(this.getDias)}
-					</select>
-					<label htmlFor="icon_prefix">{this.props.textoIndicativo}</label>
-				</div>
-
-    		)
-    }
-
-
-
-});
-
-var Opcion=React.createClass({
-	render:function(){
-		return(
-                 <option  value={this.props.valor}>{this.props.titulo}</option>
-			  )
-	}
-});
-
+})
 
 
 var NotFound =React.createClass({
@@ -199,7 +166,7 @@ var NotFound =React.createClass({
 var routes=(
       <Router history={createBrowserHistory()}>
          <Route path="/" component={App}  />
-         <Route path="/store/:storeId" component={App} />
+         <Route path="/registro/:registroId" component={Detalle} />
          <Route path="*" component={NotFound}/>
       </Router>
 	)
