@@ -27,12 +27,17 @@ gulp.task('styles',function() {
   gulp.src('css/fonts/**.*')
     .pipe(gulp.dest('build/css/fonts'))
 
-  // Compiles CSS
-  gulp.src('css/style.styl')
-    .pipe(stylus())
-    .pipe(autoprefixer())
+  gulp.src('css/index.css')
     .pipe(gulp.dest('./build/css/'))
     .pipe(reload({stream:true}))
+});
+
+/*
+  Images
+*/
+gulp.task('images',function(){
+  gulp.src('css/style/**')
+    .pipe(gulp.dest('./build/css/'))
 });
 
 /*
