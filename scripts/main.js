@@ -179,11 +179,11 @@ var Combo = require('./controles/combo');
 					<div className="row">
 					    {this.state.enParejas ? <CajaTexto icono={"contact_mail"} titulo={"Email Ciclista"} ref="emailCiclista" /> : []}
 					</div>
-				</form>
-        <br />
-        <div className="row" onClick={this.registrar}>
+        <div className="row center-align" onClick={this.registrar}>
           <a className="waves-effect waves-light btn-large color orange"><i className="material-icons left">done</i>Registrar</a>
         </div>
+      
+				</form>
           </div>
         
 	 		)
