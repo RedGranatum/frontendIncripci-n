@@ -14,7 +14,16 @@ return {
 			return {"f":"Femenino","m":"Masculino"};
 		},
 		Estados: function(){
-			return {"cdmx":"Ciudad de México","edomex":"Estado de México","mich":"Michoacan"};
+			return{
+			  Ags:'AGUASCALIENTES',  BCN:'BAJA CALIFORNIA', BCS:'BAJA CALIFORNIA SUR',Camp:'CAMPECHE',
+			  Chiaps:'CHIAPAS', Chih:'CHIHUAHUA', Coah:'COAHUILA',  Col:'COLIMA',
+			  CDMX:'CIUDAD DE MEXICO',  Dgo:'DURANGO',  Gto:'GUANAJUATO',  Gro:'GUERRERO',
+			  Hgo:'HIDALGO',  Jal:'JALISCO',  EdoMex:'ESTADO DE MEXICO',  Mich:'MICHOACAN',  Mor:'MORELOS',
+			  Nay:'NAYARIT',  NL:'NUEVO LEON',  Oax:'OAXACA',  Pue:'PUEBLA',  Qro:'QUERETARO',
+			  QRoo:'QUINTANA ROO',  SLP:'SAN LUIS POTOSI',  Sin:'SINALOA',  Son:'SONORA',  Tab:'TABASCO',
+			  Tamps:'TAMAULIPAS',  Tlax:'TLAXCALA',  Ver:'VERACRUZ',  Yuc:'YUCATAN',  Zac:'ZACATECAS',
+			  Ext:'EXTRANJERO'
+		   }
 		},
 	};
 }

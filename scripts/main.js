@@ -37,7 +37,7 @@ var Combo = require('./controles/combo');
     getInitialState: function(){
        return{
        	  genero: "m",
-       	  entidad: "cdmx",
+       	  entidad: "Chiaps",
           anio: 1997,
           mes: 1,
           dia:1,
