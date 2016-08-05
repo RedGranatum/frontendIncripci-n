@@ -17,6 +17,7 @@ module.exports = React.createClass({
 		id:'icon_prefix',
 		tipo_caja: 'text',
 		expresion_reg: '*',
+		requerido: true,
 		}
 	},
 	esValido:function(){
@@ -35,8 +36,8 @@ module.exports = React.createClass({
 	render:function(){
 		var claseCaja = "validate " + this.state.claseError;
 		var claseEtiqueta = (this.state.claseError === "") ? '' : 'active';
+		
 
-		//<label class="active"
        return (
 
 			    <div className="input-field col l6 m12 s12">
@@ -45,7 +46,7 @@ module.exports = React.createClass({
 						   type={this.props.tipo_caja} 
 						   ref="caja" 
 						   className={claseCaja} 
-						   required aria-required="true"
+						   required={true} aria-required="true"
 						   pattern={this.props.expresion_reg} />
 
 					<label htmlFor={this.props.id} 
@@ -56,9 +57,3 @@ module.exports = React.createClass({
        	      )		
 	}
 }); 
-
-// <div class="input-field col l6 m12 s12">
-// <i class="material-icons prefix">account_circle</i>
-// <input pattern="[a-z]{1,15}" aria-required="true" required="" class="validate " id="nombre" type="text">
-// <label data-success="Ok" data-error="Error" class="" for="nombre">Nombre(s)</label>
-// </div>

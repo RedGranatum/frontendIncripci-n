@@ -36,7 +36,7 @@ var Combo = require('./controles/combo');
     
     getInitialState: function(){
        return{
-       	  genero: "masculino",
+       	  genero: "m",
        	  entidad: "cdmx",
           anio: 1997,
           mes: 1,
@@ -68,7 +68,13 @@ var Combo = require('./controles/combo');
     },
     registrar:function(){
       
-      var esValido = this.refs.email.esValido() & this.refs.nombre.esValido();
+      var esValido =  this.refs.paterno.esValido() &  this.refs.materno.esValido() 
+                  &  this.refs.nombre.esValido() & this.refs.cp.esValido()
+                    & this.refs.email.esValido() & this.refs.tel.esValido() ;
+
+     if(this.state.enParejas){
+       esValido = esValido & this.refs.nomCiclista.esValido() // &  this.refs.emailCiclista.esValido() 
+     }
 
       if(!esValido){       
         return;
@@ -135,37 +141,33 @@ var Combo = require('./controles/combo');
   			<div>
         <form className="col l12 m12 s12">
 					<div className="row">
-						<CajaTexto id="nombre" expresion_reg="[a-z]{1,15}" icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
-						<CajaTexto titulo="Paterno" ref="paterno"/>
+						<CajaTexto id="nombre"  expresion_reg="[ñÑa-zA-Z\s]{2,15}" icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
+						<CajaTexto id="paterno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Paterno" ref="paterno"/>
 					</div>
 					<div className="row">
-	                    <CajaTexto titulo="Materno" ref="materno"/>	
+	           <CajaTexto id="materno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Materno" ref="materno"/>	
 					    <Combo  id="genero" ref="genero" claveSeleccionada={this.state.genero} tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"wc"} textoIndicativo={"Género"} datosOpciones={this.generos} onChange={this.onChange} />
 					</div>
 					<div className="row">
 						{DIAS}
-	                    <Combo  id="mes" claveSeleccionada={this.state.mes} ref="mes" tamanio={"input-field col l2 m4 s5"} titulo={"Mes"} datosOpciones={this.meses} onChange={this.onChange} />
-	                    <Combo  id="anio" ref="anio" claveSeleccionada={this.state.anio} tamanio={"input-field col l2 m4 s5"} titulo={"Año"} datosOpciones={this.anios} onChange={this.onChange} />			
-						<CajaTexto icono={"local_convenience_store"} titulo={"Código Postal"} ref="cp"/>
+	           <Combo  id="mes" claveSeleccionada={this.state.mes} ref="mes" tamanio={"input-field col l2 m4 s5"} titulo={"Mes"} datosOpciones={this.meses} onChange={this.onChange} />
+	           <Combo  id="anio" ref="anio" claveSeleccionada={this.state.anio} tamanio={"input-field col l2 m4 s5"} titulo={"Año"} datosOpciones={this.anios} onChange={this.onChange} />			
+						<CajaTexto id="cp" expresion_reg="[0-9\-().\s]{1,10}" icono={"local_convenience_store"} titulo={"Código Postal"} ref="cp"/>
 					</div>
 					<div className="row">
             <Combo  id="entidad"  claveSeleccionada={this.state.entidad} ref="entidad" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"map"} textoIndicativo={"Entidad"} datosOpciones={this.estados} onChange={this.onChange}/>					
-						<CajaTexto id="email" icono={"email"} titulo={"Email"} ref="email"  tipo_caja="email" />
-
-
-      
-
+						<CajaTexto id="email" icono={"email"} titulo={"Email"} ref="email"  tipo_caja="email" requerido={false} />
 					</div>
 					<div className="row">
-					    <CajaTexto icono={"phone"} titulo={"Teléfono"} ref="tel"/>
-						<CajaTexto icono={"local_hospital"} titulo={"Alergías"} ref="alergia"/>
+					    <CajaTexto id="tel"  expresion_reg="[0-9\-().\s]{1,15}" icono={"phone"} titulo={"Teléfono"} ref="tel"/>
+						  <CajaTexto id="alergias" expresion_reg="[ñÑa-zA-Z\s]{0,50}" icono={"local_hospital"} titulo={"Alergías"} ref="alergia"/>
 					</div>
 					<div className="row">
 					    <Combo id="categoria" claveSeleccionada={this.state.categoria}  ref="categoria" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"directions_bike"} textoIndicativo={"Categoría"} datosOpciones={this.categorias} onChange={this.onChange}/>					
-						{this.state.enParejas ? <CajaTexto icono={"person_add"} titulo={"Nombre Ciclista"} ref="nomCiclista"/> : []}
+						{this.state.enParejas ? <CajaTexto id="nomCiclista"  expresion_reg="[ñÑa-zA-Z\s]{2,50}" icono={"person_add"} titulo={"Nombre Ciclista"} ref="nomCiclista"/> : []}
 					</div>
 					<div className="row">
-					    {this.state.enParejas ? <CajaTexto icono={"contact_mail"} titulo={"Email Ciclista"} ref="emailCiclista" /> : []}
+					    {this.state.enParejas ? <CajaTexto id="emailCiclista" tipo_caja="email" icono={"contact_mail"} titulo={"Email Ciclista"} ref="emailCiclista" requerido={false}  /> : []}
 					</div>
         <div className="row center-align" onClick={this.registrar}>
           <a className="waves-effect waves-light btn-large color orange"><i className="material-icons left">done</i>Registrar</a>
