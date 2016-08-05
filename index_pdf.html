@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8" />
+	<title>Inscripción Carrera</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+</head>
+<body>
+	<header>
+	</header>
+	<div class="navbar-fixed">
+		<nav class="color blue darken-1">
+			<div class="nav-wrapper">
+				<a href="#!" class="brand-logo center">Quiero Correr</a>
+			</div>
+		</nav>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col l8 m6 s12 card-panel grey lighten-3 z-depth-5">
+
+			<h1>simple text in PDF</h1>
+			<script type="text/javascript">
+				function simple_PDF(){
+					var doc = new jsPDF();
+					doc.text(20,20,"Hello world!");
+					doc.text(20,30,"Simple document");
+					doc.addPage();
+					doc.text(20,20,"Esta es la sesgunda pagina");
+					doc.save("misimple.pdf");
+				}
+			</script>
+			<a href="javascript:simple_PDF()">MI PDF</a>
+
+			</div>
+			<div class="col l1 m1 s12">
+			</div>
+			<div class="col l3 m5 s12 center-align">
+				<div class="row">
+					<img class="responsive-img" src="images/CodificaSoluciones.png"">
+				</div>
+				<br>
+				<div class="row">
+					<img class="responsive-img" src="images/corredor.jpg" width="280px" height="120px">
+				</div>
+				<div class="row">
+					<span class="otra-informacion">Carrera:</span>
+					<br>
+					<span class="otra-informacion-i">18, Septiembre 2016</span>
+				</div>
+				<br>
+				<div class="row">
+					<a class="waves-effect waves-light btn-large color orange"><i class="material-icons left">done</i>Registrar</a>
+				</div>
+				<div class="row">
+					<img class="responsive-img" src="images/icono.jpg" width="75px" height="100px">
+				</div>
+			</div>
+		</div>
+	</div>s
+	<footer>
+		<h6>Aplicación desarrollada por Codifica Soluciones</h6>
+		<h6>Servicio a toda la república mexicana</h6>
+		<h6>www.codificasoluciones.com</h6>
+		<h6>contacto@codificasoluciones.com</h6>
+		<h6>Tel: (0155) 70939717</h6>
+	</footer>
+<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+<script type="text/javascript" src="js/mis_funciones.js"></script>
+<!-- PDF -->
+<script type="text/javascript" src="jsPDF-1.2.60/jspdf.js"></script>
+<script type="text/javascript" src="jsPDF-1.2.60/FileSaver.js"></script>
+</body>
+</html>
