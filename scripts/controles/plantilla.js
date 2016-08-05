@@ -32,9 +32,6 @@ module.exports = React.createClass({
 				</div>
 				<br />
 				<div className="row">
-					<a className="waves-effect waves-light btn-large color orange"><i className="material-icons left">done</i>Registrar</a>
-				</div>
-				<div className="row">
 					<img className="responsive-img" src="images/icono.jpg" width="75px" height="100px" />
 				</div>
 			</div>

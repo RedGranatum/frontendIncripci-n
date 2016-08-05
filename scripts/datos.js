@@ -11,7 +11,7 @@ return {
 			return {"duatlon-completo":"Duatlón-Completo","duatlon-parejas":"Duatlón-Parejas"};
 		},
 		Generos: function(){
-			return {"femenino":"Femenino","masculino":"Masculino"};
+			return {"f":"Femenino","m":"Masculino"};
 		},
 		Estados: function(){
 			return {"cdmx":"Ciudad de México","edomex":"Estado de México","mich":"Michoacan"};

@@ -1,17 +1,23 @@
 var React = require('react');
 var ReactDOM  = require('react-dom');
 var ReactRouter= require('react-router');
+var IndexRoute = ReactRouter.IndexRoute;
 var Router= ReactRouter.Router;
 var Route= ReactRouter.Route;
 var Navigation= ReactRouter.Navigation;
 var History=ReactRouter.History;
 var createBrowserHistory =require('history/lib/createBrowserHistory');
 
+var Coleccion = require('./modelos/colecciones.js')
+var Modelo = require('./modelos/modelos.js')
+
 var Datos = require('./datos')
 
 var Plantilla = require('./controles/plantilla')
 var CajaTexto = require('./controles/caja_texto');
 var Combo = require('./controles/combo');
+
+
 
 //var dias={1:1,2:2}
 //var meses={1:'Enero',2:'Febrero'}
@@ -26,6 +32,8 @@ var Combo = require('./controles/combo');
 //var daysInMonth = new Date(2015,2,1,-1).getDate()
 
    var App=React.createClass({
+    mixins : [History],
+    
     getInitialState: function(){
        return{
        	  genero: "masculino",
@@ -79,6 +87,41 @@ var Combo = require('./controles/combo');
       salida+="\n"+this.refs.entidad.valor();
       salida+="\n"+this.refs.categoria.valor();
       console.log(salida);
+      //var datos = new Coleccion();
+      //datos.funcionBusqueda();
+
+      var self = this;
+      var nomCiclista=this.state.enParejas ? this.refs.nomCiclista.valor() : ".";
+      var emailCiclista=this.state.enParejas ? this.refs.emailCiclista.valor() : ".";
+      var nuevo= {
+        "paterno": this.refs.paterno.valor(),
+        "materno": this.refs.materno.valor(),
+        "nombre": this.refs.nombre.valor(),
+        "dia": this.refs.dia.valor(),
+        "mes": this.refs.mes.valor(),
+        "anio": this.refs.anio.valor(),
+        "genero": this.refs.genero.valor(),
+        "cp": this.refs.cp.valor(),
+        "estado": this.refs.entidad.valor(),
+        "email": this.refs.email.valor(),
+        "telefono": this.refs.tel.valor(),
+        "alergia": this.refs.alergia.valor(),
+        "duatlon": this.refs.categoria.valor(),
+        "ciclista": nomCiclista,
+        "email_ciclista": emailCiclista
+      }
+    var mod = new Modelo();
+     mod.Guardar(nuevo,
+          function(data){
+
+                console.log("guardado")
+                self.history.pushState(null, '/' + data.id );
+              },
+          function(model,response,options){
+                console.log(response.responseText);
+              }
+      );
+
     },
     onChange: function(control, valor){    	
     	
@@ -105,8 +148,8 @@ var Combo = require('./controles/combo');
 	   var DIAS =<Combo  id="dia" claveSeleccionada={this.state.dia} ref="dia" tamanio={"input-field col l2 m4 s2"} claseIcono={"material-icons prefix"} icono={"cake"} titulo={"Dia"} textoIndicativo={"Nacimiento"} datosOpciones={dias} onChange={this.onChange} />
 
    	   return (
-  			<Plantilla>
-				<form className="col l12 m12 s12">
+  			<div>
+        <form className="col l12 m12 s12">
 					<div className="row">
 						<CajaTexto  icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
 						<CajaTexto titulo="Paterno" ref="paterno"/>
@@ -137,19 +180,67 @@ var Combo = require('./controles/combo');
 					    {this.state.enParejas ? <CajaTexto icono={"contact_mail"} titulo={"Email Ciclista"} ref="emailCiclista" /> : []}
 					</div>
 				</form>
-		    </Plantilla>
-   		)
+        <br />
+        <div className="row" onClick={this.registrar}>
+          <a className="waves-effect waves-light btn-large color orange"><i className="material-icons left">done</i>Registrar</a>
+        </div>
+          </div>
+        
+	 		)
    	 }  
    });
  
 var Detalle =React.createClass({
+    getInitialState: function(){
+       return{
+          detalles: {},
+       }    
+    },
+  componentWillMount: function(){
+    this.llenarDetalles();
+  },
+  llenarDetalles: function(){
+     this.datos = {}
+     var self = this;
+
+     var col = new Coleccion();
+     col.id = this.props.params.id;
+     
+     col.funcionBusqueda(function(data){
+                self.state.detalles = data;
+                self.setState({detalles: self.state.detalles})
+                console.log(data);
+                console.log("guardado")
+              },
+          function(model,response,options){
+            self.setState({detalles: {}})
+                console.log(response.responseText);
+              });
+  },
 	render:function(){
+    if(this.state.detalles.nombre === undefined){
+      return(
+         <div className="input-field col l12 m12 s12">
+        <h4 className="row">..Cargando datos..</h4>
+      </div>
+        )
+    }
+    var nombre = this.state.detalles.nombre + ' ' + this.state.detalles.paterno + ' ' + this.state.detalles.materno;
+    var registro = "Num.Registro: " + this.state.detalles.id;
+    var listaGeneros = Datos().Generos();
+    var genero = listaGeneros[this.state.detalles.genero];
+    var listaDuatlon =  this.categorias = Datos().Categorias();
+    var duatlon =  listaDuatlon[this.state.detalles.duatlon];
+    var ciclista = (this.state.detalles.duatlon === "duatlon-completo") ? '' : "Ciclista: "  + this.state.detalles.ciclista;
 	 return(
-		<Plantilla>
-		  <div className="input-field col l6 m12 s12">
-		  	<h1 className="row">Te registraste</h1>
-		  </div>
-		</Plantilla>
+		  <div className="input-field col l12 m12 s12">
+        <h5 className="row">{registro}</h5>
+		  	<h5 className="row">{nombre}</h5>
+		    <h5 className="row">{genero}</h5>
+        <h5 className="row">{duatlon}</h5>
+        <h5 className="row">{ciclista}</h5>
+    
+      </div>
 		)
 	}
 })
@@ -163,13 +254,27 @@ var NotFound =React.createClass({
 /*
   Routes
 */
-var routes=(
-      <Router history={createBrowserHistory()}>
-         <Route path="/" component={App}  />
-         <Route path="/registro/:registroId" component={Detalle} />
-         <Route path="*" component={NotFound}/>
-      </Router>
-	)
+
+
+// var routes=(
+//       <Router history={createBrowserHistory()}>
+//          <Route path="/" component={App}  />
+//          <Route path="/registro/:registroId" component={Detalle} />
+//          <Route path="*" component={NotFound}/>
+//       </Router>
+// 	)
+
+var history = createBrowserHistory();
+
+var routes = (
+  <Router history={history}>
+    <Route path='/' component={Plantilla}>
+      <IndexRoute component={App} />
+      <Route path=':id' component={Detalle} />
+      <Route path='*' component={NotFound} />
+    </Route>
+  </Router>
+);
 
 
 
