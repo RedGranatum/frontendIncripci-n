@@ -68,27 +68,11 @@ var Combo = require('./controles/combo');
     },
     registrar:function(){
       
-      var salida="";
-      salida+="\n"+this.refs.nombre.valor();
-      salida+="\n"+this.refs.paterno.valor();
-      salida+="\n"+this.refs.materno.valor();
-      salida+="\n"+this.refs.cp.valor();
-      salida+="\n"+this.refs.email.valor();
-      salida+="\n"+this.refs.tel.valor();
-      salida+="\n"+this.refs.alergia.valor();
-      if(this.state.enParejas){
-      	salida+="\n"+this.refs.nomCiclista.valor();
-      	salida+="\n"+this.refs.emailCiclista.valor();      	
-      }      
-      salida+="\n"+this.refs.dia.valor();
-      salida+="\n"+this.refs.mes.valor();
-      salida+="\n"+this.refs.anio.valor();
-      salida+="\n"+this.refs.genero.valor();
-      salida+="\n"+this.refs.entidad.valor();
-      salida+="\n"+this.refs.categoria.valor();
-      console.log(salida);
-      //var datos = new Coleccion();
-      //datos.funcionBusqueda();
+      var esValido = this.refs.email.esValido() & this.refs.nombre.esValido();
+
+      if(!esValido){       
+        return;
+      }
 
       var self = this;
       var nomCiclista=this.state.enParejas ? this.refs.nomCiclista.valor() : ".";
@@ -151,7 +135,7 @@ var Combo = require('./controles/combo');
   			<div>
         <form className="col l12 m12 s12">
 					<div className="row">
-						<CajaTexto  icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
+						<CajaTexto id="nombre" expresion_reg="[a-z]{1,15}" icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
 						<CajaTexto titulo="Paterno" ref="paterno"/>
 					</div>
 					<div className="row">
@@ -165,8 +149,12 @@ var Combo = require('./controles/combo');
 						<CajaTexto icono={"local_convenience_store"} titulo={"Código Postal"} ref="cp"/>
 					</div>
 					<div className="row">
-                        <Combo  id="entidad" claveSeleccionada={this.state.entidad} ref="entidad" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"map"} textoIndicativo={"Entidad"} datosOpciones={this.estados} onChange={this.onChange}/>					
-						<CajaTexto icono={"email"} titulo={"Email"} ref="email" />
+            <Combo  id="entidad"  claveSeleccionada={this.state.entidad} ref="entidad" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"map"} textoIndicativo={"Entidad"} datosOpciones={this.estados} onChange={this.onChange}/>					
+						<CajaTexto id="email" icono={"email"} titulo={"Email"} ref="email"  tipo_caja="email" />
+
+
+      
+
 					</div>
 					<div className="row">
 					    <CajaTexto icono={"phone"} titulo={"Teléfono"} ref="tel"/>
