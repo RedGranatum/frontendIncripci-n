@@ -17,7 +17,7 @@ var Plantilla = require('./controles/plantilla')
 var CajaTexto = require('./controles/caja_texto');
 var Combo = require('./controles/combo');
 
-
+var generarPDF = require('./librerias/generarPDF.js')
 
 //var dias={1:1,2:2}
 //var meses={1:'Enero',2:'Febrero'}
@@ -132,13 +132,20 @@ var Combo = require('./controles/combo');
     	}
 
     },
+    generaPDF: function(){
+      var generar = new generarPDF();
+      generar.nombre ="RAUL ENRIQUE TORRES"
+      generar.num_participante ="879"
+      generar.generaPDF();
+      console.log("generando pdf");
+    },
     render:function(){ 
     var num_dias = new Date(this.state.anio,this.state.mes,1,-1).getDate()   	                                
     var dias = this.llenarDias(num_dias);
 	   var DIAS =<Combo  id="dia" claveSeleccionada={this.state.dia} ref="dia" tamanio={"input-field col l2 m4 s2"} claseIcono={"material-icons prefix"} icono={"cake"} titulo={"Dia"} textoIndicativo={"Nacimiento"} datosOpciones={dias} onChange={this.onChange} />
 
    	   return (
-  			<div>
+  			<div>        
         <form className="col l12 m12 s12">
 					<div className="row">
 						<CajaTexto id="nombre"  expresion_reg="[ñÑa-zA-Z\s]{2,15}" icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
@@ -189,6 +196,16 @@ var Detalle =React.createClass({
   componentWillMount: function(){
     this.llenarDetalles();
   },
+  generarPDF: function(){
+      var generar = new generarPDF();
+
+      var nombre = this.state.detalles.nombre + ' ' + this.state.detalles.paterno + ' ' + this.state.detalles.materno;
+      var registro = this.state.detalles.id.toString();
+      generar.nombre = nombre;
+      generar.num_participante = registro;
+      generar.generaPDF();
+      console.log("generando pdf");
+  },
   llenarDetalles: function(){
      this.datos = {}
      var self = this;
@@ -223,13 +240,15 @@ var Detalle =React.createClass({
     var duatlon =  listaDuatlon[this.state.detalles.duatlon];
     var ciclista = (this.state.detalles.duatlon === "duatlon-completo") ? '' : "Ciclista: "  + this.state.detalles.ciclista;
 	 return(
-		  <div className="input-field col l12 m12 s12">
+      <div className="input-field col l12 m12 s12">
         <h5 className="row">{registro}</h5>
 		  	<h5 className="row">{nombre}</h5>
 		    <h5 className="row">{genero}</h5>
         <h5 className="row">{duatlon}</h5>
         <h5 className="row">{ciclista}</h5>
-    
+        <button onClick={this.generarPDF}>Imprimir</button>
+        <iframe id="impresion_registro" className="preview-pane" type="application/pdf" width="100%" height="750" frameBorder="0"  style={{position:'relative'}} >
+        </iframe>
       </div>
 		)
 	}

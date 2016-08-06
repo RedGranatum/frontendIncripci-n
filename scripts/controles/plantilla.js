@@ -16,7 +16,8 @@ module.exports = React.createClass({
 			<div className="col l8 m6 s12 card-panel grey lighten-3 z-depth-5">
 				{this.props.children}
 			</div>
-			<div className="col l1 m1 s12"></div>
+			<div className="col l1 m1 s12">  
+			</div>
 			<div className="col l3 m5 s12 center-align">
 				<div className="row">
 					<img className="responsive-img" src="images/CodificaSoluciones.png" />
