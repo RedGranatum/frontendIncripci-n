@@ -10,7 +10,7 @@ module.exports = React.createClass({
        return (
     <div className="container">
 		<div className="row valign-wrapper">
-			<span className="titulo_ficha">Incripción de competidor individual</span>
+			<span className="titulo_ficha">Inscripción de competidor individual</span>
 		</div>
 		<div className="row">
 			<div className="col l8 m6 s12 card-panel grey lighten-3 z-depth-5">
