@@ -79,7 +79,6 @@ var generarPDF = require('./librerias/generarPDF.js')
       if(!esValido){       
         return;
       }
-
       var self = this;
       var nomCiclista=this.state.enParejas ? this.refs.nomCiclista.valor() : ".";
       var emailCiclista=this.state.enParejas ? this.refs.emailCiclista.valor() : ".";
@@ -103,16 +102,35 @@ var generarPDF = require('./librerias/generarPDF.js')
     var mod = new Modelo();
      mod.Guardar(nuevo,
           function(data){
-
-                console.log("guardado")
+                console.log("guardado los datos")
+               // self.llenarDetalles(data.id)
                 self.history.pushState(null, '/' + data.id );
               },
           function(model,response,options){
+            console.log("con error")
                 console.log(response.responseText);
               }
       );
 
     },
+ llenarDetalles: function(id){
+     this.datos = {}
+     var self = this;
+
+     var col = new Coleccion();
+     col.id = id;
+     console.log("Buscando infomacion del id: " + col.id )
+     col.funcionBusqueda(function(data){
+                 
+               // self.state.detalles = data;
+                //self.setState({nombre:data.nombre, detalles: self.state.detalles})
+                console.log(data);
+                console.log("guardado datos")
+              },
+          function(model,response,options){
+                console.log("errores al cargar el detalle");
+              });
+  },
     onChange: function(control, valor){    	
     	
     	if(control ==="categoria" ){
@@ -131,13 +149,6 @@ var generarPDF = require('./librerias/generarPDF.js')
 			this.setState(lista);
     	}
 
-    },
-    generaPDF: function(){
-      var generar = new generarPDF();
-      generar.nombre ="RAUL ENRIQUE TORRES"
-      generar.num_participante ="879"
-      generar.generaPDF();
-      console.log("generando pdf");
     },
     render:function(){ 
     var num_dias = new Date(this.state.anio,this.state.mes,1,-1).getDate()   	                                
@@ -191,11 +202,14 @@ var Detalle =React.createClass({
     getInitialState: function(){
        return{
           detalles: {},
+          nombre: '',
        }    
     },
-  componentWillMount: function(){
+  componentDidMount: function(){
+     console.log("Montado del id: " + this.props.params.id );
     this.llenarDetalles();
   },
+
   generarPDF: function(){
       var generar = new generarPDF();
 
@@ -212,20 +226,26 @@ var Detalle =React.createClass({
 
      var col = new Coleccion();
      col.id = this.props.params.id;
-     
+     self.setState({nombre:''});
+     console.log("Buscando infomacion del id: " + col.id )
      col.funcionBusqueda(function(data){
+                 
                 self.state.detalles = data;
-                self.setState({detalles: self.state.detalles})
+                self.setState({nombre:data.nombre, detalles: self.state.detalles})
                 console.log(data);
-                console.log("guardado")
+                console.log("guardado datos")
               },
           function(model,response,options){
-            self.setState({detalles: {}})
+     
+            self.setState({nombre:'',detalles: {}})
                 console.log(response.responseText);
               });
   },
 	render:function(){
-    if(this.state.detalles.nombre === undefined){
+    console.log("1--***" + this.state.detalles.nombre)
+    console.log("2-****" + this.state.nombre)
+    
+    if(this.state.nombre === ''){
       return(
          <div className="input-field col l12 m12 s12">
         <h4 className="row">..Cargando datos..</h4>
