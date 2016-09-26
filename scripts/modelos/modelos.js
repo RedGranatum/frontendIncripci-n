@@ -2,8 +2,8 @@ var Backbone        = require('backbone');
 
 module.exports =  Backbone.Model.extend({
 		url : function(){
-	    		var direccion = 'localhost';
-	    		var direccion = '107.170.1.182';
+	    		//var direccion = 'localhost';
+	    		var direccion = '192.241.197.67';
 	    		return 'http://'+ direccion+':8000/registro/';
 	    		
 	  	},
