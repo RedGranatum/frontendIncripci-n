@@ -6,7 +6,7 @@ id: function(id){
        },
 url : function(){
 	    		var direccion = 'localhost';
-	    		var direccion = '107.170.1.182';
+	    		var direccion = '192.241.197.67';
 	    		return 'http://'+ direccion+':8000/registro/' + this.id + '/';
 	 },
 
