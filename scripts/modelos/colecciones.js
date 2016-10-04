@@ -7,7 +7,7 @@ id: function(id){
 url : function(){
 	    		//var direccion = 'localhost';
 	    		var direccion = '192.241.197.67';
-	    		return 'http://'+ direccion+'/servcarrera_registro/' + this.id + '/';
+	    		return 'http://'+ direccion+'/carreraapp/' + this.id + '/';
 	 },
 
 funcionBusqueda: function(funcion_exito, funcion_error){

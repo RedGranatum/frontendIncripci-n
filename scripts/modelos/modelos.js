@@ -4,7 +4,7 @@ module.exports =  Backbone.Model.extend({
 		url : function(){
 	    		//var direccion = 'localhost';
 	    		var direccion = '192.241.197.67';
-	    		return 'http://'+ direccion+'/servcarrera_registro/';    		
+	    		return 'http://'+ direccion+'/carreraapp/';    		
 	  	},
      Guardar: function(datos,funcion_exito,funcion_error){
      	
