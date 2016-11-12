@@ -4,11 +4,18 @@ module.exports =  Backbone.Model.extend({
 id: function(id){
        	  this.id = id;
        },
+email: function(email){
+        this.email= email;
+       },
 url : function(){
-	    		//var direccion = 'localhost';
-	    		var direccion = '192.241.197.67';
+	    		var direccion = 'localhost:8000';
+          if(this.email !== undefined){
+            return 'http://'+ direccion+'/registro/email_adulto/' + this.email + '/';
+          }
+          return 'http://'+ direccion+'/registro/' + this.id + '/';
+	    		//var direccion = '192.241.197.67';
 
-	    		return 'http://'+ direccion+'/carreraapp/registro/' + this.id + '/';
+	    		//return 'http://'+ direccion+'/carreraapp/registro/' + this.id + '/';
 	 },
 
 funcionBusqueda: function(funcion_exito, funcion_error){

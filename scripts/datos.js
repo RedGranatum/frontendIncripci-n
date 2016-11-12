@@ -8,11 +8,19 @@ return {
   			return {1:'Enero',2:'Febrero',3:'Marzo',4:'Abril',5:'Mayo',6:'Junio',7:'Julio',8:'Agosto',9:'Septiembre',10:'Octubre',11:'Noviembre',12:'Diciembre'};									
 		},
 		Categorias: function(){
-			return {"duatlon-completo":"Duatlón-Completo","duatlon-parejas":"Duatlón-Parejas"};
+			return {"juvenil-varonil":"Juvenil Varonil (16 a 24 años)"," libre-varonil":"Libre Varonil (25 a 35 años)",
+			"master-varonil":" Master Varonil (36 en adelante)","juvenil-femenil":"Juvenil Femenil (16 a 24 años)",
+			" libre-femenil":"Libre Femenil (25 a 35 años)","master-femenil":"Master Femenil (36 en adelante)",
+			"infantil":"Infantil (4-8 años)",};
 		},
+
 		Generos: function(){
-			return {"f":"Femenino","m":"Masculino"};
+			return {"f":"2da. Carrera QuieroCorrer-Tapachula 18 de Diciembre 2016","m":"3ra. Carrera Quierocorrer-Cacahoatán 23 de Diciembre 2016"};
 		},
+
+		
+
+
 		Estados: function(){
 			return{
 			  Ags:'AGUASCALIENTES',  BCN:'BAJA CALIFORNIA', BCS:'BAJA CALIFORNIA SUR',Camp:'CAMPECHE',

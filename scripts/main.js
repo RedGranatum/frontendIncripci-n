@@ -43,6 +43,7 @@ var generarPDF = require('./librerias/generarPDF.js')
           dia:1,
           enParejas:false,
           categoria: "duatlon-completo",
+          errores: "",
        }    
     },
     componentWillMount: function(){
@@ -103,11 +104,13 @@ var generarPDF = require('./librerias/generarPDF.js')
      mod.Guardar(nuevo,
           function(data){
                 console.log("guardado los datos")
+                self.setState({errores:""})
                // self.llenarDetalles(data.id)
                 self.history.pushState(null, '/' + data.id );
               },
           function(model,response,options){
             console.log("con error")
+                self.setState({errores:response.responseText})
                 console.log(response.responseText);
               }
       );
@@ -134,7 +137,7 @@ var generarPDF = require('./librerias/generarPDF.js')
     onChange: function(control, valor){    	
     	
     	if(control ==="categoria" ){
-        	var enParejas = (valor === "duatlon-parejas" )    	
+        	var enParejas = (valor === "infantil" )    	
     		this.setState({categoria:valor, enParejas:enParejas});   		
     	}
     	else if(control ==="anio" || control==="mes"){
@@ -150,6 +153,21 @@ var generarPDF = require('./librerias/generarPDF.js')
     	}
 
     },
+onBlur: function(columna,valor){
+  if(columna==="emailCiclista"){
+      var self = this;
+      var buscarAdulto = new Coleccion();
+      buscarAdulto.email = valor;
+      buscarAdulto.funcionBusqueda(
+        function(data){
+            var nombre = data[0] === undefined ? "" : data[0].nombre;
+            self.refs.nomCiclista.asignarValor(nombre);
+        },
+          function(model,response,options){
+            self.refs.nomCiclista.asignarValor("")
+        });
+  }
+},
     render:function(){ 
     var num_dias = new Date(this.state.anio,this.state.mes,1,-1).getDate()   	                                
     var dias = this.llenarDias(num_dias);
@@ -160,11 +178,11 @@ var generarPDF = require('./librerias/generarPDF.js')
         <form className="col l12 m12 s12">
 					<div className="row">
 						<CajaTexto id="nombre"  expresion_reg="[ñÑa-zA-Z\s]{2,15}" icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
-						<CajaTexto id="paterno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Paterno" ref="paterno"/>
+						<CajaTexto id="paterno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Apellido Paterno" ref="paterno"/>
 					</div>
 					<div className="row">
-	           <CajaTexto id="materno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Materno" ref="materno"/>	
-					    <Combo  id="genero" ref="genero" claveSeleccionada={this.state.genero} tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"wc"} textoIndicativo={"Género"} datosOpciones={this.generos} onChange={this.onChange} />
+	           <CajaTexto id="materno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Apellido Materno" ref="materno"/>	
+					    <Combo  id="genero" ref="genero" claveSeleccionada={this.state.genero} tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"wc"} textoIndicativo={"Carreras Confirmadas"} datosOpciones={this.generos} onChange={this.onChange} />
 					</div>
 					<div className="row">
 						{DIAS}
@@ -178,19 +196,22 @@ var generarPDF = require('./librerias/generarPDF.js')
 					</div>
 					<div className="row">
 					    <CajaTexto id="tel"  expresion_reg="[0-9\-().\s]{1,15}" icono={"phone"} titulo={"Teléfono"} ref="tel"/>
-						  <CajaTexto id="alergias" expresion_reg="[ñÑa-zA-Z\s]{0,50}" icono={"local_hospital"} titulo={"Alergías"} ref="alergia"/>
+						  <CajaTexto id="alergias" expresion_reg="[ñÑa-zA-Z\s]{0,50}" icono={"local_hospital"} titulo={"Alergias y/o Condición Médica a Considerar (ej. diabetes, hipertensión, …)"} ref="alergia"/>
 					</div>
 					<div className="row">
 					    <Combo id="categoria" claveSeleccionada={this.state.categoria}  ref="categoria" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"directions_bike"} textoIndicativo={"Categoría"} datosOpciones={this.categorias} onChange={this.onChange}/>					
-						{this.state.enParejas ? <CajaTexto id="nomCiclista"  expresion_reg="[ñÑa-zA-Z\s]{2,50}" icono={"person_add"} titulo={"Nombre Ciclista"} ref="nomCiclista"/> : []}
+						{this.state.enParejas ? <CajaTexto id="nomCiclista"  expresion_reg="[ñÑa-zA-Z\s]{2,50}" icono={"person_add"} titulo={"Adulto Responsable (El nombre se obtendra del email del responsable"} solo_lectura={true} ref="nomCiclista"/> : []}
 					</div>
 					<div className="row">
-					    {this.state.enParejas ? <CajaTexto id="emailCiclista" tipo_caja="email" icono={"contact_mail"} titulo={"Email Ciclista"} ref="emailCiclista" requerido={false}  /> : []}
+					    {this.state.enParejas ? <CajaTexto id="emailCiclista" tipo_caja="email" icono={"contact_mail"} titulo={"Email Responsable"} ref="emailCiclista" requerido={false} onBlur={this.onBlur} /> : []}
 					</div>
+          <div className="row">
+            {this.state.errores}
+          </div>
         <div className="row center-align" onClick={this.registrar}>
           <a className="waves-effect waves-light btn-large color orange"><i className="material-icons left">done</i>Registrar</a>
         </div>
-      
+        
 				</form>
           </div>
         

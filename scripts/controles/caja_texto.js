@@ -18,6 +18,7 @@ module.exports = React.createClass({
 		tipo_caja: 'text',
 		expresion_reg: '*',
 		requerido: true,
+		solo_lectura: false
 		}
 	},
 	esValido:function(){
@@ -33,11 +34,20 @@ module.exports = React.createClass({
 	valor:function(){
             return this.refs.caja.value;
 	},
+	asignarValor:function(valor){
+         this.refs.caja.value = valor;
+	},
+    handleBlur: function(e){
+        this.props.onBlur(this.props.id,e.target.value);
+    },
 	render:function(){
 		var claseCaja = "validate " + this.state.claseError;
 		var claseEtiqueta = (this.state.claseError === "") ? '' : 'active';
 		
-
+		 var opts = {};
+	    if( this.props.solo_lectura) {
+	        opts['readOnly'] = 'readOnly';
+	    }
        return (
 
 			    <div className="input-field col l6 m12 s12">
@@ -47,7 +57,8 @@ module.exports = React.createClass({
 						   ref="caja" 
 						   className={claseCaja} 
 						   required={true} aria-required="true"
-						   pattern={this.props.expresion_reg} />
+						   pattern={this.props.expresion_reg} 
+						   onBlur = {this.handleBlur}  {...opts} />
 
 					<label htmlFor={this.props.id} 
 					       className={claseEtiqueta} 
