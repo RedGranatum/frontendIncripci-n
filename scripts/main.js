@@ -68,6 +68,15 @@ var generarPDF = require('./librerias/generarPDF.js')
     	return dias;
     },
     registrar:function(){
+      var self = this;
+      if(this.state.enParejas ){
+        this.buscarAdultoPorEmail(self.refs.emailCiclista.valor(),self.guardar)
+      }
+      else{
+        this.guardar();
+      }
+    },
+    guardar:function(){
       
       var esValido =  this.refs.paterno.esValido() &  this.refs.materno.esValido() 
                   &  this.refs.nombre.esValido() & this.refs.cp.esValido()
@@ -155,6 +164,10 @@ var generarPDF = require('./librerias/generarPDF.js')
     },
 onBlur: function(columna,valor){
   if(columna==="emailCiclista"){
+        this.buscarAdultoPorEmail(valor);
+  }
+},
+buscarAdultoPorEmail: function(valor,funcion_guardar){
       var self = this;
       var buscarAdulto = new Coleccion();
       buscarAdulto.email = valor;
@@ -162,11 +175,14 @@ onBlur: function(columna,valor){
         function(data){
             var nombre = data[0] === undefined ? "" : data[0].nombre;
             self.refs.nomCiclista.asignarValor(nombre);
+            if(funcion_guardar!==undefined){
+              funcion_guardar();
+            }
         },
           function(model,response,options){
             self.refs.nomCiclista.asignarValor("")
+            self.setState({errores:"Es necesario el email de un Adulto ya registrado"})
         });
-  }
 },
     render:function(){ 
     var num_dias = new Date(this.state.anio,this.state.mes,1,-1).getDate()   	                                
@@ -257,7 +273,7 @@ var Detalle =React.createClass({
                 console.log("guardado datos")
               },
           function(model,response,options){
-     
+            debugger;
             self.setState({nombre:'',detalles: {}})
                 console.log(response.responseText);
               });

@@ -4,12 +4,10 @@ module.exports =  Backbone.Model.extend({
 id: function(id){
        	  this.id = id;
        },
-email: function(email){
-        this.email= email;
-       },
 url : function(){
 	    		var direccion = 'localhost:8000';
           if(this.email !== undefined){
+            debugger;
             return 'http://'+ direccion+'/registro/email_adulto/' + this.email + '/';
           }
           return 'http://'+ direccion+'/registro/' + this.id + '/';
