@@ -5,9 +5,9 @@ id: function(id){
        	  this.id = id;
        },
 url : function(){
-	    		var direccion = 'localhost:8000';
+	    	//	var direccion = 'localhost:8000';
+            var direccion ='107.170.1.182/servidor'  
           if(this.email !== undefined){
-            debugger;
             return 'http://'+ direccion+'/registro/email_adulto/' + this.email + '/';
           }
           return 'http://'+ direccion+'/registro/' + this.id + '/';

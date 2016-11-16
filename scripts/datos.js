@@ -33,6 +33,10 @@ return {
 			  Ext:'EXTRANJERO'
 		   }
 		},
+
+		Municipios: function(){
+			return {"nuevo":"Ocampo","otro":"Zitacuaro"};
+		},
 	};
 }
 module.exports = datos;

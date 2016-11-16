@@ -18,6 +18,10 @@ module.exports = React.createClass({
      },
   componentDidMount() {  	  
      $(ReactDOM.findDOMNode(this.refs.combo)).on('change',this.onChange);
+    
+//      oldSelect.parentNode.replaceChild(newSelect, oldSelect);
+// $('select').material_select();
+
    },
   componentWillUnmount() {
      $(ReactDOM.findDOMNode(this.refs.combo)).off('change',this.onChange);
@@ -34,7 +38,9 @@ module.exports = React.createClass({
 			)
 		},	
 	render: function(){
+
 		var OPCIONES = Object.keys(this.props.datosOpciones).map(this.llenarOpciones);
+		console.log(OPCIONES);
 		return(
                 <div className={this.props.tamanio} >
 					<i className={this.props.claseIcono}>{this.props.icono}</i>

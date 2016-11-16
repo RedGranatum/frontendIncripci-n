@@ -10,6 +10,7 @@ var createBrowserHistory =require('history/lib/createBrowserHistory');
 
 var Coleccion = require('./modelos/colecciones.js')
 var Modelo = require('./modelos/modelos.js')
+var CMunicipios = require('./modelos/municipios.js')
 
 var Datos = require('./datos')
 
@@ -38,6 +39,8 @@ var generarPDF = require('./librerias/generarPDF.js')
        return{
        	  genero: "m",
        	  entidad: "Chiaps",
+          municipio: "nueva",
+          municipios: {},
           anio: 1997,
           mes: 1,
           dia:1,
@@ -52,6 +55,7 @@ var generarPDF = require('./librerias/generarPDF.js')
         this.categorias = Datos().Categorias();
         this.generos = Datos().Generos();
         this.estados = Datos().Estados();
+        this.buscarMunicipiosPorEstado(this.state.entidad);
     },
     obtenerAnios: function(){
     	var anios = {}
@@ -79,7 +83,7 @@ var generarPDF = require('./librerias/generarPDF.js')
     guardar:function(){
       
       var esValido =  this.refs.paterno.esValido() &  this.refs.materno.esValido() 
-                  &  this.refs.nombre.esValido() & this.refs.cp.esValido()
+                  &  this.refs.nombre.esValido() /*& this.refs.cp.esValido()*/
                     & this.refs.email.esValido() & this.refs.tel.esValido() ;
 
      if(this.state.enParejas){
@@ -100,14 +104,15 @@ var generarPDF = require('./librerias/generarPDF.js')
         "mes": this.refs.mes.valor(),
         "anio": this.refs.anio.valor(),
         "genero": this.refs.genero.valor(),
-        "cp": this.refs.cp.valor(),
+        //"cp": this.refs.cp.valor(),
         "estado": this.refs.entidad.valor(),
         "email": this.refs.email.valor(),
         "telefono": this.refs.tel.valor(),
         "alergia": this.refs.alergia.valor(),
         "duatlon": this.refs.categoria.valor(),
         "ciclista": nomCiclista,
-        "email_ciclista": emailCiclista
+        "email_ciclista": emailCiclista,
+        "municipio": this.refs.municipio.valor(),
       }
     var mod = new Modelo();
      mod.Guardar(nuevo,
@@ -149,12 +154,21 @@ var generarPDF = require('./librerias/generarPDF.js')
         	var enParejas = (valor === "infantil" )    	
     		this.setState({categoria:valor, enParejas:enParejas});   		
     	}
-    	else if(control ==="anio" || control==="mes"){
+    	else if(control ==="anio" || control==="mes" || control==="dia"){
     		var anio = this.refs.anio.valor();
-    		var mes = this.refs.mes.valor();            
-            this.setState({anio: anio, mes: mes});
+    		var mes = this.refs.mes.valor();  
+        var dia = this.refs.dia.valor();          
+            this.setState({anio: anio, mes: mes,dia:dia});
             $('select').material_select(); // Esto es necesario para que materialize pueda refrescar los datos del combo
     	}
+      else if(control ==="entidad"){
+        this.setState({entidad: valor});
+        this.buscarMunicipiosPorEstado(valor);
+        console.log("cambio a " + valor);
+      }
+      else if(control ==="municipio"){
+         this.setState({municipio: valor});
+      }
     	else{
     		var lista ={};
 			lista[control] = valor;
@@ -173,7 +187,7 @@ buscarAdultoPorEmail: function(valor,funcion_guardar){
       buscarAdulto.email = valor;
       buscarAdulto.funcionBusqueda(
         function(data){
-            var nombre = data[0] === undefined ? "" : data[0].nombre;
+            var nombre = data[0] === undefined ? "" : data[0].nombre + ' ' + data[0].paterno + ' ' + data[0].materno;
             self.refs.nomCiclista.asignarValor(nombre);
             if(funcion_guardar!==undefined){
               funcion_guardar();
@@ -184,11 +198,32 @@ buscarAdultoPorEmail: function(valor,funcion_guardar){
             self.setState({errores:"Es necesario el email de un Adulto ya registrado"})
         });
 },
+buscarMunicipiosPorEstado: function(estado){
+      var self = this;
+      var buscarMunicipio = new CMunicipios();
+      buscarMunicipio.estado = estado;
+      buscarMunicipio.funcionBusqueda(
+        function(data){
+          //var municipios =  Datos().Municipios();
+          var municipios ={}
+          for(var x in data){
+            municipios[data[x].id] = data[x].municipio;
+          }
+          self.setState({municipios:municipios});
+           $('select').material_select();
+        },
+          function(model,response,options){
+            // self.refs.nomCiclista.asignarValor("")
+            // self.setState({errores:"Es necesario el email de un Adulto ya registrado"})
+        });
+
+},
     render:function(){ 
     var num_dias = new Date(this.state.anio,this.state.mes,1,-1).getDate()   	                                
     var dias = this.llenarDias(num_dias);
 	   var DIAS =<Combo  id="dia" claveSeleccionada={this.state.dia} ref="dia" tamanio={"input-field col l2 m4 s2"} claseIcono={"material-icons prefix"} icono={"cake"} titulo={"Dia"} textoIndicativo={"Nacimiento"} datosOpciones={dias} onChange={this.onChange} />
-
+     var MUNICIPIOS =  <Combo  id="municipio"  claveSeleccionada={this.state.municipio} ref="municipio" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"map"} textoIndicativo={"Municipio"} datosOpciones={this.state.municipios} onChange={this.onChange} />          
+          
    	   return (
   			<div>        
         <form className="col l12 m12 s12">
@@ -198,17 +233,19 @@ buscarAdultoPorEmail: function(valor,funcion_guardar){
 					</div>
 					<div className="row">
 	           <CajaTexto id="materno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Apellido Materno" ref="materno"/>	
-					    <Combo  id="genero" ref="genero" claveSeleccionada={this.state.genero} tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"wc"} textoIndicativo={"Carreras Confirmadas"} datosOpciones={this.generos} onChange={this.onChange} />
-					</div>
+					    <Combo  id="genero" ref="genero" claveSeleccionada={this.state.genero} tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"wc"} textoIndicativo={"Carreras Confirmadas"} datosOpciones={this.generos} onChange={this.onChange} />          
+          </div>
 					<div className="row">
 						{DIAS}
 	           <Combo  id="mes" claveSeleccionada={this.state.mes} ref="mes" tamanio={"input-field col l2 m4 s5"} titulo={"Mes"} datosOpciones={this.meses} onChange={this.onChange} />
 	           <Combo  id="anio" ref="anio" claveSeleccionada={this.state.anio} tamanio={"input-field col l2 m4 s5"} titulo={"Año"} datosOpciones={this.anios} onChange={this.onChange} />			
-						<CajaTexto id="cp" expresion_reg="[0-9\-().\s]{1,10}" icono={"local_convenience_store"} titulo={"Código Postal"} ref="cp"/>
-					</div>
-					<div className="row">
-            <Combo  id="entidad"  claveSeleccionada={this.state.entidad} ref="entidad" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"map"} textoIndicativo={"Entidad"} datosOpciones={this.estados} onChange={this.onChange}/>					
-						<CajaTexto id="email" icono={"email"} titulo={"Email"} ref="email"  tipo_caja="email" requerido={false} />
+             <Combo  id="entidad"  claveSeleccionada={this.state.entidad} ref="entidad" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"map"} textoIndicativo={"Entidad"} datosOpciones={this.estados} onChange={this.onChange}/>					
+            {/*<CajaTexto id="cp" expresion_reg="[0-9\-().\s]{1,10}" icono={"local_convenience_store"} titulo={"Código Postal"} ref="cp"/>*/}
+          </div>
+          <div className="row">
+            {MUNICIPIOS}
+          
+          	<CajaTexto id="email" icono={"email"} titulo={"Email"} ref="email"  tipo_caja="email" requerido={false} />
 					</div>
 					<div className="row">
 					    <CajaTexto id="tel"  expresion_reg="[0-9\-().\s]{1,15}" icono={"phone"} titulo={"Teléfono"} ref="tel"/>
@@ -273,7 +310,6 @@ var Detalle =React.createClass({
                 console.log("guardado datos")
               },
           function(model,response,options){
-            debugger;
             self.setState({nombre:'',detalles: {}})
                 console.log(response.responseText);
               });
@@ -295,7 +331,7 @@ var Detalle =React.createClass({
     var genero = listaGeneros[this.state.detalles.genero];
     var listaDuatlon =  this.categorias = Datos().Categorias();
     var duatlon =  listaDuatlon[this.state.detalles.duatlon];
-    var ciclista = (this.state.detalles.duatlon === "duatlon-completo") ? '' : "Ciclista: "  + this.state.detalles.ciclista;
+    var ciclista = (this.state.detalles.duatlon === "duatlon-completo") ? '' : "Responsable: "  + this.state.detalles.ciclista;
 	 return(
       <div className="input-field col l12 m12 s12">
         <h5 className="row">{registro}</h5>
