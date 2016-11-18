@@ -233,7 +233,7 @@ buscarMunicipiosPorEstado: function(estado){
 					</div>
 					<div className="row">
 	           <CajaTexto id="materno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Apellido Materno" ref="materno"/>	
-					    <Combo  id="genero" ref="genero" claveSeleccionada={this.state.genero} tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"wc"} textoIndicativo={"Carreras Confirmadas"} datosOpciones={this.generos} onChange={this.onChange} />          
+					    <Combo  id="genero" ref="genero" claveSeleccionada={this.state.genero} tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"directions_walk"} textoIndicativo={"Carreras Confirmadas"} datosOpciones={this.generos} onChange={this.onChange} />          
           </div>
 					<div className="row">
 						{DIAS}
@@ -252,7 +252,7 @@ buscarMunicipiosPorEstado: function(estado){
 						  <CajaTexto id="alergias" expresion_reg="[ñÑa-zA-Z\s]{0,50}" icono={"local_hospital"} titulo={"Alergias y/o Condición Médica a Considerar (ej. diabetes, hipertensión, …)"} ref="alergia"/>
 					</div>
 					<div className="row">
-					    <Combo id="categoria" claveSeleccionada={this.state.categoria}  ref="categoria" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"directions_bike"} textoIndicativo={"Categoría"} datosOpciones={this.categorias} onChange={this.onChange}/>					
+					    <Combo id="categoria" claveSeleccionada={this.state.categoria}  ref="categoria" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"group"} textoIndicativo={"Categoría"} datosOpciones={this.categorias} onChange={this.onChange}/>					
 						{this.state.enParejas ? <CajaTexto id="nomCiclista"  expresion_reg="[ñÑa-zA-Z\s]{2,50}" icono={"person_add"} titulo={"Adulto Responsable (El nombre se obtendra del email del responsable"} solo_lectura={true} ref="nomCiclista"/> : []}
 					</div>
 					<div className="row">
