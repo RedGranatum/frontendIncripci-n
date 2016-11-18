@@ -25,7 +25,7 @@ module.exports = React.createClass({
 			</div>
 			<div className="col l3 m5 s12 center-align">
 				<div class="row">
-					<img class="responsive-img" src="images/talento.png" />
+					<img class="responsive-img" src="images/talento.png" width="280px" />
 				</div>
 				<br />
 				<div className="row">
