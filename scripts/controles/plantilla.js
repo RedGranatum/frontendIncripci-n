@@ -37,7 +37,10 @@ module.exports = React.createClass({
 				<div className="row">
 					<span className="otra-informacion">Informes:</span>
 					<br />
-					<span className="otra-informacion-i">18, Noviembre 2016</span>
+					<span className="otra-informacion-i">contacto@quierocorrer.com.mx</span>
+					<br />
+					<span className="otra-informacion-i">contacto@formatalento.com.mx</span>
+
 				</div>
 				<br />
 				<div className="row">
