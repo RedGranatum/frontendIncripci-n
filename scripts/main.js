@@ -291,6 +291,7 @@ var Detalle =React.createClass({
       var registro = this.state.detalles.id.toString();
       generar.nombre = nombre;
       generar.num_participante = registro;
+      generar.genero = this.state.detalles.genero;
       generar.generaPDF();
       console.log("generando pdf");
   },

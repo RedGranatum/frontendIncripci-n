@@ -1,17 +1,22 @@
 var React = require('react');
+var ReactRouter= require('react-router');
+var IndexLink = ReactRouter.IndexLink;
 
 /*
   Plantilla
 */  
 
 module.exports = React.createClass({
-
 	render:function(){
        return (
     <div className="container">
 		<div className="row valign-wrapper">
+			<IndexLink to="/">Inscribir otro competidor</IndexLink>			
+		</div>
+		<div className="row valign-wrapper">
 			<span className="titulo_ficha">Inscripción de Competidor</span>
 		</div>
+		
 		<div className="row">
 			<div className="col l8 m6 s12 card-panel grey lighten-3 z-depth-5">
 				{this.props.children}
@@ -24,12 +29,11 @@ module.exports = React.createClass({
 				</div>
 				<br />
 				<div className="row">
-					<img className="responsive-img" src="./build/images/corredor.jpg" width="280px" height="120px" />
 				</div>
 				<div className="row">
-					<span className="otra-informacion">Carrera:</span>
+					<span className="otra-informacion">Informes:</span>
 					<br />
-					<span className="otra-informacion-i">18, Septiembre 2016</span>
+					<span className="otra-informacion-i">18, Noviembre 2016</span>
 				</div>
 				<br />
 				<div className="row">
