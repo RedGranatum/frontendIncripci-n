@@ -62,6 +62,7 @@ return {
 	doc.addImage(imgData_2, 'JPEG', 140, 192, 55, 25);
 	doc.setFontSize(14);
 	doc.text(10, 206, 'Central Norte 18, Tapachula, Chiapas');
+	doc.text(10, 212, 'Auditorio Municipal de Cacahoatan de 4 a 7 pm');
 
 	doc.setFontSize(12);
 	doc.text(10, 230, 'Sistema de registro elaborado por:');

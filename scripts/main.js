@@ -288,9 +288,9 @@ var Detalle =React.createClass({
       var generar = new generarPDF();
 
       var nombre = this.state.detalles.nombre + ' ' + this.state.detalles.paterno + ' ' + this.state.detalles.materno;
-      var registro = this.state.detalles.id.toString();
+      var numero = this.state.detalles.numero.toString();
       generar.nombre = nombre;
-      generar.num_participante = registro;
+      generar.num_participante = numero;
       generar.genero = this.state.detalles.genero;
       generar.generaPDF();
       console.log("generando pdf");
@@ -328,6 +328,8 @@ var Detalle =React.createClass({
     }
     var nombre = this.state.detalles.nombre + ' ' + this.state.detalles.paterno + ' ' + this.state.detalles.materno;
     var registro = "Num.Registro: " + this.state.detalles.id;
+    var numero = "Num.Participante: " + this.state.detalles.numero;
+    
     var listaGeneros = Datos().Generos();
     var genero = listaGeneros[this.state.detalles.genero];
     var listaDuatlon =  this.categorias = Datos().Categorias();
@@ -336,6 +338,7 @@ var Detalle =React.createClass({
 	 return(
       <div className="input-field col l12 m12 s12">
         <h5 className="row">{registro}</h5>
+        <h5 className="row">{numero}</h5>
 		  	<h5 className="row">{nombre}</h5>
 		    <h5 className="row">{genero}</h5>
         <h5 className="row">{duatlon}</h5>
