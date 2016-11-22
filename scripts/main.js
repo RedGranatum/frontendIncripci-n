@@ -337,7 +337,6 @@ var Detalle =React.createClass({
     var ciclista = (this.state.detalles.duatlon === "duatlon-completo") ? '' : "Responsable: "  + this.state.detalles.ciclista;
 	 return(
       <div className="input-field col l12 m12 s12">
-        <h5 className="row">{registro}</h5>
         <h5 className="row">{numero}</h5>
 		  	<h5 className="row">{nombre}</h5>
 		    <h5 className="row">{genero}</h5>
