@@ -58,7 +58,7 @@ return {
 	doc.line(60, 188, 200, 188);
 
 	doc.setFontSize(12);
-	doc.text(10, 200, 'Para completar el registro realiza tu pago en la sucursal de:');
+	doc.text(10, 200, 'Para completar el registro realiza tu donativo en la sucursal de:');
 	doc.addImage(imgData_2, 'JPEG', 140, 192, 55, 25);
 	doc.setFontSize(14);
 	doc.text(10, 206, 'Central Norte 18, Tapachula, Chiapas');

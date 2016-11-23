@@ -8,7 +8,7 @@ return {
   			return {1:'Enero',2:'Febrero',3:'Marzo',4:'Abril',5:'Mayo',6:'Junio',7:'Julio',8:'Agosto',9:'Septiembre',10:'Octubre',11:'Noviembre',12:'Diciembre'};									
 		},
 		Categorias: function(){
-			return {"juvenil-varonil":"Juvenil Varonil (16 a 24 años)"," libre-varonil":"Libre Varonil (25 a 35 años)",
+			return {"libre-varonilt":"Libre Varonil (Tapachula)","libre-femenilt":"Libre Femenil (Tapachula)", "juvenil-varonil":"Juvenil Varonil (16 a 24 años)"," libre-varonil":"Libre Varonil (25 a 35 años)",
 			"master-varonil":" Master Varonil (36 en adelante)","juvenil-femenil":"Juvenil Femenil (16 a 24 años)",
 			" libre-femenil":"Libre Femenil (25 a 35 años)","master-femenil":"Master Femenil (36 en adelante)",
 			"infantil":"Infantil (4-8 años)",};
