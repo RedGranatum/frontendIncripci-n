@@ -39,7 +39,13 @@ module.exports = React.createClass({
 					<br />
 					<span className="otra-informacion-i">contacto@quierocorrer.com.mx</span>
 					<br />
-					<span className="otra-informacion-i">contacto@formatalento.com.mx</span>
+					<span className="otra-informacion-i">contacto@formatalento.com</span>
+					<br />
+					<br />
+					<span className="color orange ">¿Vas a apoyar a los corredores?</span>
+					<br />
+					<span className="otra-informacion-i">Manda un correo a contacto@formatalento.com con tu nombre y telefono, para la rifa de los cursos de microsoft excel.</span>
+
 
 				</div>
 				<br />
