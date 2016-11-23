@@ -44,7 +44,7 @@ module.exports = React.createClass({
 					<br />
 					<span className="color orange ">¿Vas a apoyar a los corredores?</span>
 					<br />
-					<span className="otra-informacion-i">Manda un correo a contacto@formatalento.com con tu nombre y telefono, para la rifa de los cursos de microsoft excel.</span>
+					<span className="otra-informacion-i">Manda un correo a contacto@formatalento.com con tu nombre y teléfono, para la rifa de los cursos de Microsoft Excel.</span>
 
 
 				</div>
