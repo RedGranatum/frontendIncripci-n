@@ -169,6 +169,11 @@ var generarPDF = require('./librerias/generarPDF.js')
       else if(control ==="municipio"){
          this.setState({municipio: valor});
       }
+      else if(control === "genero"){
+        this.setState({genero: valor});
+        this.refs.emailCiclista.asignarValor("");
+        this.refs.nomCiclista.asignarValor("");
+      }
     	else{
     		var lista ={};
 			lista[control] = valor;
@@ -183,19 +188,28 @@ onBlur: function(columna,valor){
 },
 buscarAdultoPorEmail: function(valor,funcion_guardar){
       var self = this;
+      this.refs.nomCiclista.asignarValor("")
       var buscarAdulto = new Coleccion();
       buscarAdulto.email = valor;
+      buscarAdulto.genero = this.state.genero;
       buscarAdulto.funcionBusqueda(
         function(data){
-            var nombre = data[0] === undefined ? "" : data[0].nombre + ' ' + data[0].paterno + ' ' + data[0].materno;
-            self.refs.nomCiclista.asignarValor(nombre);
-            if(funcion_guardar!==undefined){
-              funcion_guardar();
+            if(Object.keys(data).length>0){
+              self.setState({errores:""})
+               var nombre = data[0] === undefined ? "" : data[0].nombre + ' ' + data[0].paterno + ' ' + data[0].materno;
+              self.refs.nomCiclista.asignarValor(nombre);
+              if(funcion_guardar!==undefined){
+                funcion_guardar();
             }
+           }
+           else{
+            self.refs.nomCiclista.asignarValor("")
+            self.setState({errores:"Es necesario el email de un Adulto ya registrado para esa carrera"})
+           }
         },
           function(model,response,options){
-            self.refs.nomCiclista.asignarValor("")
-            self.setState({errores:"Es necesario el email de un Adulto ya registrado"})
+            //self.refs.nomCiclista.asignarValor("")
+            //self.setState({errores:"Es necesario el email de un Adulto ya registrado para esa carrera"})
         });
 },
 buscarMunicipiosPorEstado: function(estado){
@@ -253,7 +267,7 @@ buscarMunicipiosPorEstado: function(estado){
 					</div>
 					<div className="row">
 					    <Combo id="categoria" claveSeleccionada={this.state.categoria}  ref="categoria" tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"group"} textoIndicativo={"Categoría"} datosOpciones={this.categorias} onChange={this.onChange}/>					
-						{this.state.enParejas ? <CajaTexto id="nomCiclista"  expresion_reg="[ñÑa-zA-Z\s]{2,50}" icono={"person_add"} titulo={"Adulto Responsable (El nombre se obtendra del email del responsable"} solo_lectura={true} ref="nomCiclista"/> : []}
+						{this.state.enParejas ? <CajaTexto id="nomCiclista"  expresion_reg="[ñÑa-zA-Z\s]{0,50}" icono={"person_add"} titulo={"Adulto Responsable (El nombre se obtendra del email del responsable"} solo_lectura={true} ref="nomCiclista"/> : []}
 					</div>
 					<div className="row">
 					    {this.state.enParejas ? <CajaTexto id="emailCiclista" tipo_caja="email" icono={"contact_mail"} titulo={"Email Responsable"} ref="emailCiclista" requerido={false} onBlur={this.onBlur} /> : []}

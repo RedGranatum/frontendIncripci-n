@@ -8,7 +8,7 @@ url : function(){
 	    	//	var direccion = 'localhost:8000';
             var direccion ='107.170.1.182/servidor'  
           if(this.email !== undefined){
-            return 'http://'+ direccion+'/registro/email_adulto/' + this.email + '/';
+            return 'http://'+ direccion+'/registro/email_adulto/' + this.email + '/' +this.genero;
           }
           return 'http://'+ direccion+'/registro/' + this.id + '/';
 	    		//var direccion = '192.241.197.67';
