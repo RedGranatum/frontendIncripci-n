@@ -242,11 +242,11 @@ buscarMunicipiosPorEstado: function(estado){
   			<div>        
         <form className="col l12 m12 s12">
 					<div className="row">
-						<CajaTexto id="nombre"  expresion_reg="[ñÑa-zA-Z\s]{2,15}" icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
-						<CajaTexto id="paterno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Apellido Paterno" ref="paterno"/>
+						<CajaTexto id="nombre"  expresion_reg="[áéíóúÁÉÍÓÚñÑa-zA-Z\s]{2,15}" icono={"account_circle"} titulo="Nombre(s)" ref="nombre"/>
+						<CajaTexto id="paterno" expresion_reg="[áéíóúÁÉÍÓÚñÑa-zA-Z\s]{2,15}" titulo="Apellido Paterno" ref="paterno"/>
 					</div>
 					<div className="row">
-	           <CajaTexto id="materno" expresion_reg="[ñÑa-zA-Z\s]{2,15}" titulo="Apellido Materno" ref="materno"/>	
+	           <CajaTexto id="materno" expresion_reg="[áéíóúÁÉÍÓÚñÑa-zA-Z\s]{2,15}" titulo="Apellido Materno" ref="materno"/>	
 					    <Combo  id="genero" ref="genero" claveSeleccionada={this.state.genero} tamanio={"input-field col l6 m12 s12"} claseIcono={"material-icons prefix"} icono={"directions_walk"} textoIndicativo={"Carreras Confirmadas"} datosOpciones={this.generos} onChange={this.onChange} />          
           </div>
 					<div className="row">
