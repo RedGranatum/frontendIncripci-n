@@ -2,6 +2,10 @@ var jsPDF = require('./jspdf.js')
 var addImage = require('./addimage.js')
 var Datos = require('../datos')
 
+String.prototype.replaceAll = function(target, replacement) {
+  return this.split(target).join(replacement);
+};
+
 var generar_pdf = function(){
 return {
    numParticipante: function(num_participante){
@@ -35,6 +39,13 @@ return {
 	doc.setFontSize(12);
 
 	doc.text(10, 162, 'Nombre Completo:');
+  this.nombre = this.nombre.toUpperCase();
+  //debugger;
+  this.nombre=this.nombre.replaceAll("Á", "A");
+  this.nombre=this.nombre.replaceAll("É", "E");
+  this.nombre=this.nombre.replaceAll("Í", "I");
+  this.nombre=this.nombre.replaceAll("Ó", "O");
+  this.nombre=this.nombre.replaceAll("Ú", "U");
 	doc.text(60, 162, this.nombre);
 	doc.setDrawColor(0,0,0);
 	doc.setLineWidth(0.1);
